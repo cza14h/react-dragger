@@ -1,0 +1,19 @@
+.common{
+  position: absolute;
+  box-shadow:0 0 0 1px black;
+  // border:1px solid black;
+  & > :global(.position-indicator){
+    position: absolute;
+
+    & > :global(.coordinates) {
+      pointer-events: none;
+      position: relative;
+      left: -105%;
+      top: -1.5em;
+      text-shadow: 1px 1px 1px var(--canvas-cm-title-bg-color);
+      color: var(--canvas-com-focus-color);
+      transform-origin: bottom right;
+      // font-size: 1.3em;
+    }
+  }
+}

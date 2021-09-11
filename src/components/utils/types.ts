@@ -22,6 +22,9 @@ export type ReactDraggerProps = {
   semi?: boolean
   active: boolean
   hover?: boolean
+  relOffsetX?: number
+  relOffsetY?: number
+  onActivate?(): void
   onDragStart?(e: React.MouseEvent): false | void
   onDragging?(e: MouseEvent, c: coordinates): false | void
   onDragEnd?(e: MouseEvent, c: coordinates): false | void

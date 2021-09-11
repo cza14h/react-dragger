@@ -1,9 +1,9 @@
 import React from 'react';
-import type { ReactDraggerProps } from './utils/types'
-import DraggerCore from './dragger-core'
+import type { ReactDraggerProps } from '../utils/types'
+import DraggerCore from '../dragger-core'
 import styles from './index.module.scss'
-import ReactResizer from './react-resizer/react-resizer';
-import { getDraggerRelativeCoordinates } from './utils/calc';
+import ReactResizer from '../react-resizer/react-resizer';
+import { getDraggerRelativeCoordinates } from '../utils/calc';
 
 const { 'common': dragger } = styles
 
@@ -17,7 +17,6 @@ function getDraggerStyle(x: number, y: number) {
 
 
 class ReactDragger extends DraggerCore<ReactDraggerProps> {
-
 
   lastX: number = 0
   lastY: number = 0
@@ -49,20 +48,27 @@ class ReactDragger extends DraggerCore<ReactDraggerProps> {
     e.stopPropagation()
   }
 
-  render() {
-    const { posture: { x, y, w, h, deg = 0 } } = this.props
+  renderIndicator(x: number, y: number) {
+    const { relOffsetX = 0, relOffsetY = 0 } = this.props
+    const [trueX, trueY] = [x + relOffsetX, y + relOffsetY]
+    return (
+      <div className="position-indicator">
+        <div className="coordinates">{`${trueX},${trueY}`}</div>
+        <div className="position-line x"></div>
+        <div className="position-line y"></div>
+      </div>
+    )
+  }
 
+  render() {
+    const { posture: { x, y }, active } = this.props
     return (
       <div
         ref={this.draggerRef} className={dragger + ' react-dragger'}
         style={getDraggerStyle(x, y)}
         onMouseDown={this.onDragStart}
       >
-        <div className="position-indicator">
-          <div className="coordinates"></div>
-          <div className="position-line x"></div>
-          <div className="position-line y"></div>
-        </div>
+        {active && this.renderIndicator(x, y)}
         <ReactResizer posture={this.props.posture}>
           {this.props.children}
         </ReactResizer>

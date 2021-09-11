@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import ReactDragger from './components/react-dragger'
+import ReactDragger from './components/react-dragger/react-dragger'
 import type { coordinates, ReactDraggerProps } from './components/utils/types'
 
 
