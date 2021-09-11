@@ -1,0 +1,110 @@
+$box: 12px;
+$dot: 7px;
+
+$box-align: -$box + $dot/2 - 0.5px;
+$box-align-center: calc(50% - #{$dot});
+
+$dot-align-center: $box/2 - $dot/2;
+
+// only corner handler can trigger container rotating
+@mixin rotate {
+  cursor: url('../../assets/rotate.png') 14 14, pointer;
+}
+
+.handle {
+  user-select: none;
+  height: $box;
+  width: $box;
+  // box-shadow: 0 0 0 1px white;
+  position: absolute;
+
+  & > :global(.resizer-handle) {
+    position: absolute;
+    height: $dot;
+    width: $dot;
+    cursor: pointer;
+
+    &::after {
+      content: '';
+      border-radius: 100%;
+      position: absolute;
+      background-color: #fff;
+      height: $dot;
+      width: $dot;
+    }
+  }
+
+  &:global(.nw) {
+    @include rotate();
+    top: $box-align;
+    left: $box-align;
+    & > :global(.resizer-handle) {
+      right: 0px;
+      bottom: 0px;
+    }
+  }
+  &:global(.n) {
+    top: $box-align;
+    left: $box-align-center;
+    & > :global(.resizer-handle) {
+      left: $dot-align-center;
+      bottom: 0px;
+    }
+  }
+  &:global(.ne) {
+    @include rotate();
+
+    top: $box-align;
+    right: $box-align;
+    & > :global(.resizer-handle) {
+      left: 0px;
+      bottom: 0px;
+    }
+  }
+  &:global(.w) {
+    top: $box-align-center;
+    left: $box-align;
+    & > :global(.resizer-handle) {
+      top: $dot-align-center;
+      right: 0px;
+    }
+  }
+  &:global(.e) {
+    top: $box-align-center;
+    right: $box-align;
+    & > :global(.resizer-handle) {
+      top: $dot-align-center;
+      left: 0px;
+    }
+  }
+
+  &:global(.sw) {
+    @include rotate();
+
+    left: $box-align;
+    bottom: $box-align;
+    & > :global(.resizer-handle) {
+      right: 0px;
+      top: 0px;
+    }
+  }
+
+  &:global(.s) {
+    bottom: $box-align;
+    left: $box-align-center;
+    & > :global(.resizer-handle) {
+      left: $dot-align-center;
+    }
+  }
+
+  &:global(.se) {
+    @include rotate();
+
+    bottom: $box-align;
+    right: $box-align;
+    & > :global(.resizer-handle) {
+      left: 0px;
+      top: 0px;
+    }
+  }
+}
