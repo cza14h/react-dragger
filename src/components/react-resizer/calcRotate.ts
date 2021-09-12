@@ -136,22 +136,23 @@ export function calculateHandler(
     lockAspectRatio,
   );
   const { w, h, deg = 0 } = style
-  let [symX, symY] = standardVector
-  symX = -1 * symX as StandardNumber
-  symY = -1 * symY as StandardNumber
+  const [sX, sY] = standardVector
+
 
   const newCenter = getNewCenterPoint(handlerCoordinates, symmetricPoint);
   const newHandler = rotateCoordinates(handlerCoordinates, newCenter, -deg);
   const newSymmetric = rotateCoordinates(symmetricPoint, newCenter, -deg);
 
+
+  // -sx represents the standard number for its symmetric point 
   let newWidth =
-    symX === 0
+    sX === 0
       ? w
-      : symX * newSymmetric.x + standardVector[0] * newHandler.x;
+      : -1 * sX * newSymmetric.x + sX * newHandler.x;
   let newHeight =
-    symY === 0
+    sY === 0
       ? h
-      : symY * newSymmetric.y + standardVector[1] * newHandler.y;
+      : -1 * sY * newSymmetric.y + sY * newHandler.y;
   if (newWidth >= 0 && newHeight >= 0) {
     if (lockAspectRatio) {
       const ratio =
