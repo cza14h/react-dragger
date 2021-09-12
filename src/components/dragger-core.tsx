@@ -30,9 +30,16 @@ class DraggerCore<T extends DraggerCoreProps = DraggerCoreProps> extends Compone
     return this.getEventCoordinate(e)
   }
 
-  private getEventCoordinate(e:MouseEvent| React.MouseEvent) {
+
+  getOffsetRef() {
+    // (window as any).a = this.props.nodeRef?.current ?? this.draggerRef.current?.offsetParent ?? document.body
+    // return this.props.nodeRef?.current ?? this.draggerRef.current?.offsetParent ?? document.body
+    return this.props.nodeRef?.current ?? this.draggerRef.current?.offsetParent ?? document.body
+  }
+
+  getEventCoordinate(e: MouseEvent | React.MouseEvent) {
     const scale = this.props.getScale?.() ?? 1
-    const offsetParent = this.draggerRef.current?.offsetParent ?? document.body
+    const offsetParent = this.getOffsetRef()
     return getCoordinatesFromParent(e, offsetParent, scale)
   }
 

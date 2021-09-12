@@ -1,8 +1,9 @@
-.common{
+$border-style: 0 0 0 1px black;
+
+.common {
   position: absolute;
-  box-shadow:0 0 0 1px black;
   // border:1px solid black;
-  & > :global(.position-indicator){
+  & > :global(.position-indicator) {
     position: absolute;
 
     & > :global(.coordinates) {
@@ -14,6 +15,26 @@
       color: var(--canvas-com-focus-color);
       transform-origin: bottom right;
       // font-size: 1.3em;
+    }
+  }
+
+  &:global(.hide) {
+    display: none;
+  }
+
+  &:global(.lock) {
+    display: none;
+    & > :global(.react-resizer) {
+      & > :global(.resizer-handle-outer) {
+        display: none;
+      }
+    }
+  }
+
+  &:global(.active) {
+    box-shadow: $border-style;
+    & > :global(.react-resizer) {
+      box-shadow: $border-style;
     }
   }
 }

@@ -1,12 +1,9 @@
-import type { DegToCursorType ,Directions} from '../utils/types';
-export const dia = 6,
-  padding = 12,
-  offset = `${dia + padding / 2}px`,
-  middle = `calc( 50% - ${offset})`;
+import type { DegToCursorType, Directions } from '../utils/types';
+
 
 export const vectors: { [k in Directions]: [number, number] } = {
-  n: [0, 1],
-  s: [0, -1],
+  n: [0, -1],
+  s: [0, 1],
   e: [1, 0],
   w: [-1, 0],
 };
@@ -22,13 +19,4 @@ export const degToCursor: DegToCursorType = [
   { start: 293, end: 338, cursor: 'nwse' },
 ];
 
-export const handlers = {
-  nw: `top: -${offset};left: -${offset};`,
-  n: `top: -${offset};left: ${middle};`,
-  ne: `top: -${offset};right: -${offset};`,
-  w: `top: ${middle};left: -${offset};`,
-  e: `top: ${middle};right: -${offset};`,
-  sw: `bottom: -${offset};left: -${offset};`,
-  s: `bottom: -${offset};left: ${middle};`,
-  se: `bottom: -${offset};right: -${offset};`,
-};
+export const allHandles = ['s', 'w', 'e', 'n', 'sw', 'nw', 'se', 'ne'] as const

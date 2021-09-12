@@ -1,11 +1,8 @@
 import React from 'react';
 import type { ReactDraggerProps } from '../utils/types'
 import DraggerCore from '../dragger-core'
-import styles from './index.module.scss'
 import ReactResizer from '../react-resizer/react-resizer';
-import { getDraggerRelativeCoordinates } from '../utils/calc';
-
-const { 'common': dragger } = styles
+import { getDraggerClassStatus, getDraggerRelativeCoordinates, renderIndicator } from '../utils/calc';
 
 
 function getDraggerStyle(x: number, y: number) {
@@ -15,8 +12,20 @@ function getDraggerStyle(x: number, y: number) {
 }
 
 
+const defaultProps = {
+  semi: false,
+  hover: false,
+  hide: false,
+  lock: false,
+  relOffsetX: 0,
+  relOffsetY: 0,
+}
 
-class ReactDragger extends DraggerCore<ReactDraggerProps> {
+type DefaultProps = typeof defaultProps
+
+class ReactDragger extends DraggerCore<ReactDraggerProps & DefaultProps> {
+
+  static defaultProps = defaultProps
 
   lastX: number = 0
   lastY: number = 0
@@ -34,42 +43,37 @@ class ReactDragger extends DraggerCore<ReactDraggerProps> {
     e.preventDefault()
     const coordinates = this._onMouseMove(e)
     const { x, y } = getDraggerRelativeCoordinates(this, coordinates);
-    const res = this.props.onDragging?.(e, { x, y })
-    if (res === false) return
-    e.stopPropagation()
+    this.props.onDragging?.(e, { x, y })
   }
 
   onDragEnd = (e: MouseEvent) => {
     e.preventDefault()
     const coordinates = this._onMouseUp(e)
     const { x, y } = getDraggerRelativeCoordinates(this, coordinates);
-    const res = this.props.onDragEnd?.(e, { x, y })
-    if (res === false) return
-    e.stopPropagation()
+    this.props.onDragEnd?.(e, { x, y })
   }
 
-  renderIndicator(x: number, y: number) {
-    const { relOffsetX = 0, relOffsetY = 0 } = this.props
-    const [trueX, trueY] = [x + relOffsetX, y + relOffsetY]
-    return (
-      <div className="position-indicator">
-        <div className="coordinates">{`${trueX},${trueY}`}</div>
-        <div className="position-line x"></div>
-        <div className="position-line y"></div>
-      </div>
-    )
+  renderIndicator() {
+    return renderIndicator(this)
   }
+
 
   render() {
-    const { posture: { x, y }, active } = this.props
+    const { posture: { x, y }, active, semi, hover, hide, lock } = this.props
     return (
       <div
-        ref={this.draggerRef} className={dragger + ' react-dragger'}
+        ref={this.draggerRef} className={getDraggerClassStatus(hide, lock, active || semi)}
         style={getDraggerStyle(x, y)}
         onMouseDown={this.onDragStart}
+      // onMouseOverCapture={}
+      // onMouseLeave={}
       >
-        {active && this.renderIndicator(x, y)}
-        <ReactResizer posture={this.props.posture}>
+        {this.renderIndicator()}
+        <ReactResizer
+          nodeRef={this.draggerRef}
+          posture={this.props.posture}
+          setPosture={this.props.setPosture}
+        >
           {this.props.children}
         </ReactResizer>
       </div>

@@ -1,24 +1,28 @@
 import { FC, useState } from 'react'
 import ReactDragger from './components/react-dragger/react-dragger'
-import type { coordinates, ReactDraggerProps } from './components/utils/types'
+import type { BasicPosture, ReactDraggerProps } from './components/utils/types'
 
 
 
 
 const initialValue: ReactDraggerProps = {
-  posture: { x: 200, y: 200, w: 200, h: 200, deg: 0 },
+  posture: { x: 200, y: 200, w: 200, h: 200, deg: 30 },
   active: true,
-
+  setPosture(){}
 }
 
 const Example: FC = () => {
-  const [config, setConfig] = useState<ReactDraggerProps>(  initialValue)
+  const [config, setConfig] = useState<ReactDraggerProps>(initialValue)
 
-  const cb = (e: MouseEvent, { x, y }: coordinates) => {
-    setConfig({ ...config, posture: { ...config.posture,x,y } })
+  const cb = (e: MouseEvent, postrue: BasicPosture) => {
+    setConfig({ ...config, posture: { ...config.posture, ...postrue } })
   }
-  return <div>
-    <ReactDragger {...config} onDragging={cb} onDragEnd={cb}>
+
+  const setPosture = (postrue: BasicPosture) => {
+    setConfig({ ...config, posture: { ...config.posture, ...postrue } })
+  }
+  return <div style={{transform:`scale(1)`}}>
+    <ReactDragger {...config} setPosture={setPosture} onDragging={cb} onDragEnd={cb}>
       child content
     </ReactDragger>
 
