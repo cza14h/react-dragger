@@ -25,7 +25,7 @@ export type ReactDraggerProps = {
   hover?: boolean
   relOffsetX?: number
   relOffsetY?: number
-  setPosture: (e: BasicPosture) => void
+  setPosture: (e: Partial<BasicPosture>) => void
   onActivate?(): void
   onDragStart?(e: React.MouseEvent): false | void
   onDragging?(e: MouseEvent, c: coordinates): false | void
@@ -35,7 +35,7 @@ export type ReactDraggerProps = {
 export type ReactResizerProps = {
   className?: string
   posture: BasicPosture
-  setPosture: (e: BasicPosture) => void
+  setPosture: (e: Partial<BasicPosture>) => void
   handles?: ResizerHandleType[]
   lockAspectRatio?: () => boolean | boolean
 } & DraggerCoreProps

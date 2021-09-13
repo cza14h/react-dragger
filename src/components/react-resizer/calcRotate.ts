@@ -1,6 +1,6 @@
 import { coordinates, BasicPosture, StandardVector, StandardNumber } from "../utils/types";
 
-export function getCenter({ x, y, w, h }: BasicPosture) {
+export function getCenter({ x, y, w, h }: BasicPosture): coordinates {
   return {
     x: x + w / 2,
     y: y + h / 2,
@@ -177,7 +177,5 @@ export function calculateHandler(
  * @param curPosition the current cursor's coordinate
  */
 export function centeralRotate(center: coordinates, { x, y }: coordinates): number {
-  return (
-    (((Math.PI / 2 - Math.atan2(-1 * (y - center.y), x - center.x)) * 180) / Math.PI + 360) % 360
-  );
+  return Math.atan2(y - center.y, x - center.x) * 180 / Math.PI
 }

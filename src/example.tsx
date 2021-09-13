@@ -6,7 +6,7 @@ import type { BasicPosture, ReactDraggerProps } from './components/utils/types'
 
 
 const initialValue: ReactDraggerProps = {
-  posture: { x: 200, y: 200, w: 200, h: 200, deg: 30 },
+  posture: { x: 200, y: 200, w: 200, h: 200, deg: 45 },
   active: true,
   setPosture(){}
 }
@@ -18,7 +18,7 @@ const Example: FC = () => {
     setConfig({ ...config, posture: { ...config.posture, ...postrue } })
   }
 
-  const setPosture = (postrue: BasicPosture) => {
+  const setPosture = (postrue: Partial<BasicPosture>) => {
     setConfig({ ...config, posture: { ...config.posture, ...postrue } })
   }
   return <div style={{transform:`scale(1)`}}>

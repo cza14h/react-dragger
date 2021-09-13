@@ -51,23 +51,28 @@ class ResizerHandle extends DraggerCore<ResizerHandleProps> {
 
 
   onRotateStart = (e: React.MouseEvent) => {
-
+    const coordinates = this.getEventCoordinate(e)
+    const res = this.props.onRotateStart?.(e, coordinates, this.standardVector)
+    if (res === false) return
+    this.rotating = true
+    this._onMouseDown(e)
   }
 
   onRotating = (e: MouseEvent) => {
-
+    const coordinates = this._onMouseMove(e)
+    this.props.onRotating?.(e, coordinates, this.standardVector)
   }
 
   onRotateEnd = (e: MouseEvent) => {
     const coordinates = this._onMouseMove(e)
-    this.props.onResizing?.(e, coordinates, this.standardVector)
+    this.props.onRotateEnd?.(e, coordinates, this.standardVector)
   }
 
 
   render() {
     const { heading } = this.props
     const outerProps: any = {};
-    if (this.props.heading.length === 1) {
+    if (this.props.heading.length === 2) {
       outerProps['onMouseDown'] = this.onRotateStart
     }
     return <div
