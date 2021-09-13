@@ -1,5 +1,5 @@
-import type { DegToCursorType, Directions } from '../utils/types';
-
+import type { DegToCursorType, Directions, ResizerHandleType, StandardVector } from '../utils/types';
+export const allHandles = ['s', 'w', 'e', 'n', 'sw', 'nw', 'se', 'ne'] as const
 
 export const vectors: { [k in Directions]: [number, number] } = {
   n: [0, -1],
@@ -7,6 +7,24 @@ export const vectors: { [k in Directions]: [number, number] } = {
   e: [1, 0],
   w: [-1, 0],
 };
+const handleVectors: any = {}
+
+
+export const getStandardVector = (heading: ResizerHandleType): StandardVector => {
+  const orthogonalArr = heading.split('') as Directions[]
+  return orthogonalArr.reduce<StandardVector>(
+    (a, b: Directions) => {
+      return [a[0] + vectors[b][0], a[1] + vectors[b][1]] as StandardVector
+    }
+    , [0, 0])
+}
+
+
+allHandles.forEach((e) => {
+  handleVectors[e] = getStandardVector(e)
+})
+
+export { handleVectors }
 
 export const degToCursor: DegToCursorType = [
   { start: 113, end: 158, cursor: 'nwse' },
@@ -19,4 +37,3 @@ export const degToCursor: DegToCursorType = [
   { start: 293, end: 338, cursor: 'nwse' },
 ];
 
-export const allHandles = ['s', 'w', 'e', 'n', 'sw', 'nw', 'se', 'ne'] as const

@@ -4,8 +4,7 @@ import ResizerHandle from './resizer-handle';
 import type { coordinates, ReactResizerProps, ResizerHandleCallback, ResizerHandleCallbackNative, StandardVector, } from '../utils/types';
 import { allHandles } from './consts'
 import { calculateHandler, centeralRotate, getCenter, getSymmetricCoord, rotateCoordinates } from './calcRotate';
-
-
+import { headingToCursorStyle } from './handler-style-utils'
 
 function getResizerStyle(w: number, h: number, deg: number): CSSProperties {
   return {
@@ -117,7 +116,9 @@ class ReactResizer extends PureComponent<ReactResizerProps & typeof defaultProps
 
 
 const ReactResizerWrapper = styled(ReactResizer)`
-  
+  &>.resizer-handle-outer{
+    ${({ posture: { deg } }) => headingToCursorStyle(deg ?? 0)}
+  }
 `
 
 export default ReactResizerWrapper

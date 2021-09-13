@@ -2,7 +2,9 @@ import React from 'react'
 import DraggerCore from '../dragger-core'
 import styles from './resizer-handle.module.scss'
 import type { ResizerHandleProps, StandardVector } from '../utils/types'
-import { getStandardVector } from './utils'
+import { handleVectors } from './consts'
+// import { getStandardVector } from './handler-style-utils'
+
 
 const { handle } = styles
 
@@ -16,7 +18,7 @@ class ResizerHandle extends DraggerCore<ResizerHandleProps> {
 
   constructor(props: ResizerHandleProps) {
     super(props)
-    this.standardVector = getStandardVector(props.heading)
+    this.standardVector = handleVectors[props.heading]
   }
 
   onResizeStart = (e: React.MouseEvent) => {
